@@ -1,0 +1,35 @@
+#!/bin/bash
+## Use current working directory (change working directory)
+##Error file
+#$ -e /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA93/admixture/ADMIXTURE_SAPA93_iterate.err
+## Out file
+#$ -o /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA93/admixture/ADMIXTURE_SAPA93_iterate.out
+#$ -S /bin/bash
+## Job's name
+#$ -N ADMIXTURE_Mezcal
+#$ -l vf=8G
+#$ -pe openmp 4
+#$ -m e
+## notification
+#$ -M jabrahamavelar@gmail.com
+
+# basado en: https://app.liigh.unam.mx/lmorales/Master_Thesis_JAUA/blob/master/bin/ADMIXTURE/ADMIXTURE_allSACE.sge
+
+## Modules
+module load gcc/5.1.0 vcftools/0.1.14 admixture/1.3.0  plink/1.07
+
+# 1) Convert the .g.vcf file to plink format with vcftoolsv0.1.14 # generate .ped .map and .log
+vcftools Matrix.vcf --plink --out Matrix
+
+# 2) Convert the ped to bed FORMAT
+plink -- file Matrix
+
+# 3) Run unsupervised ADMIXTURE software with cross-validation error estimations (--cv) witk K=1-10
+
+for K in {1..10}
+do
+  admixture --cv Matrix.bed $K -j4 |tee log${K}_SAPA93.out
+done
+
+# Archivo con la tabla con CVs
+grep -h CV log*_SAPA93.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA93.txt
