@@ -1,0 +1,4 @@
+python3.7  mapping2ref.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/onlySACE2tree_26jul2022.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt
+python3.7 vcalling_genotyping_isolates_GATK.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/onlySACE2tree_26jul2022.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt
+cp javelar_SH_vcalling_genotyping.sh javelar_SH_vcalling_genotyping_SACE141_.sh
+qsub javelar_SH_vcalling_genotyping_SACE141_.sh
