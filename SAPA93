@@ -9,3 +9,29 @@ module load plink/1.07
 plink --file Matrix --make-bed Matrix
 module load admixture/1.3.0
 admixture --cv Matrix.bed 6
+
+
+# quitar LD 2 caminos:
+#   Usar vcftools
+#   Cambiar nombres de cromosomas 
+cp Matrix.vcf LD/Matrix_LD.vcf
+cp Matrix_LD.vcf Matrix_ChangeChrNames.vcf
+
+#   especificar nombres de cromosomas en plink
+->https://evomics.org/learning/population-and-speciation-genomics/2016-population-and-speciation-genomics/fileformats-vcftools-plink/
+plink –bfile Matrix.vcf –aec –chr SAPA_YPS138_v1_chr_01 –r2 –ld-window-kb 1 –ld-window 1000 –ld-window-r2 0 –out Chr1_Matrix_SAPA
+plink -–vcf Matrix indep-pairwise 500 10 .3 --aec --chr SAPA_YPS138_v1_chr_01 –-out Chr1_Matrix_SAPA
+Error: Chromosome ranges cannot include nonstandard names.
+vim Matrix_ChangeChrNames.vcf
+## dentro de vim
+[ESC]:%s/SAPA_YPS138_v1_chr_0//[ENTER]
+[ESC]:%s/SAPA_YPS138_v1_chr_//[ENTER]
+plink --file Matrix_ChangeChrNames --make-bed --out Matrix_ChangeChrNames
+plink --bfile Matrix_ChangeChrNames --indep-pairwise 500 10 .3
+# Output dice : Pruning complete.  179467 of 190950 variants removed.
+#               Marker lists written to plink.prune.in and plink.prune.out
+
+for K in {1..10}
+do
+  admixture --cv Matrix_ChangeChrNames.bed $K -j4 |tee log_${K}_MCHN.out
+done
