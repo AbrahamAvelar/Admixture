@@ -11,17 +11,15 @@ module load admixture/1.3.0
 admixture --cv Matrix.bed 6
 
 
-# quitar LD 2 caminos:
-#   Usar vcftools
+#### quitar LD 2 caminos:  ####
+#   Usar vcftools para 'enflacar' los datos. https://evomics.org/learning/population-and-speciation-genomics/2016-population-and-speciation-genomics/fileformats-vcftools-plink/
+vcftools –gzvcf data.noIND04.miss0.5.vcf.gz –not-chr scf7180003949713 –thin 10 –recode –recode-INFO-all –out data.noIND04.miss0.5.noMT.thin10 –stdout | gzip -c > data.noIND04.miss0.5.noMT.thin10.vcf.gz
+–thin takes the first site it reads and excludes any sites that are within the specified distance from that first site, then it keeps the next site, etc.
+# esta ya ni la intenté porque funcionó la siguiente.
+
 #   Cambiar nombres de cromosomas 
 cp Matrix.vcf LD/Matrix_LD.vcf
 cp Matrix_LD.vcf Matrix_ChangeChrNames.vcf
-
-#   especificar nombres de cromosomas en plink
-->https://evomics.org/learning/population-and-speciation-genomics/2016-population-and-speciation-genomics/fileformats-vcftools-plink/
-plink –bfile Matrix.vcf –aec –chr SAPA_YPS138_v1_chr_01 –r2 –ld-window-kb 1 –ld-window 1000 –ld-window-r2 0 –out Chr1_Matrix_SAPA
-plink -–vcf Matrix indep-pairwise 500 10 .3 --aec --chr SAPA_YPS138_v1_chr_01 –-out Chr1_Matrix_SAPA
-Error: Chromosome ranges cannot include nonstandard names.
 vim Matrix_ChangeChrNames.vcf
 ## dentro de vim
 [ESC]:%s/SAPA_YPS138_v1_chr_0//[ENTER]
@@ -31,7 +29,15 @@ plink --bfile Matrix_ChangeChrNames --indep-pairwise 500 10 .3
 # Output dice : Pruning complete.  179467 of 190950 variants removed.
 #               Marker lists written to plink.prune.in and plink.prune.out
 
+
+#   especificar nombres de cromosomas en plink
+->https://evomics.org/learning/population-and-speciation-genomics/2016-population-and-speciation-genomics/fileformats-vcftools-plink/
+plink –bfile Matrix.vcf –aec –chr SAPA_YPS138_v1_chr_01 –r2 –ld-window-kb 1 –ld-window 1000 –ld-window-r2 0 –out Chr1_Matrix_SAPA
+plink -–vcf Matrix indep-pairwise 500 10 .3 --aec --chr SAPA_YPS138_v1_chr_01 –-out Chr1_Matrix_SAPA
+Error: Chromosome ranges cannot include nonstandard names.
+
 for K in {1..10}
 do
   admixture --cv Matrix_ChangeChrNames.bed $K -j4 |tee log_${K}_MCHN.out
 done
+grep "CV" log_*out
