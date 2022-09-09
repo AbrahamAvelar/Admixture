@@ -28,6 +28,7 @@ vim Matrix_ChangeChrNames.vcf
 [ESC]:%s/SAPA_YPS138_v1_chr_//[ENTER]
 plink --file Matrix_ChangeChrNames --make-bed --out Matrix_ChangeChrNames
 plink --bfile Matrix_ChangeChrNames --indep-pairwise 500 10 .3
+--bfile plink.prune.in
 # Output dice : Pruning complete.  179467 of 190950 variants removed.
 #               Marker lists written to plink.prune.in and plink.prune.out
 
@@ -42,9 +43,15 @@ for rseed in {1..10}
 do
 for K in {1..10}
 do
-  admixture -s $rseed --cv Matrix_ChangeChrNames_LDprune.bed 4 -j4 |tee log_${rseed}_${k}_MCHN_LDprune.out
+  admixture -s $rseed --cv Matrix_ChangeChrNames_LDprune.bed $K -j4 |tee log_${rseed}_${K}_MCHN_LDprune.out
 done
 done
 
 grep "CV" log_*LDprune.out
 grep -h CV log*_all_Mezcal.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_all_SACE.txt
+
+# para ver por qué el árbol tiene 91 y el phy con el que se hizo el árbol tiene 93
+cut -d ' ' -f1 Matrix_SNPs_SAPA_from_CONC_gt_onlySNPs_filtered_missing_10.recode.min4.phy > phylip_IDs # este tiene 93 secuencias
+# aquí http://www.trex.uqam.ca/index.php?action=matrixToNewick&project=trex metí el árbol de microrreact hecho nwk RAxML-bipartitionsBranchLabels.Matrix-SNPs-SAPA-from-CONC-gt-onlySNPs-filtered-missing-10-SAPA93.tree
+# que es el output de haber hecho un árbol con el .phy mencionado atrás. En uqam y en microrct sale que son 91. voy a ver cuáles y por qué?
+
