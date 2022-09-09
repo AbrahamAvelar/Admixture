@@ -1,5 +1,7 @@
 python3.7 SNPs_onlyChr.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE_Missing84fromSACE363.txt -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt --subgenome SACE
-
+cp javelar_SH_vcfOnlychr.sh javelar_SH_vcfOnlychr_84MissingSACE.sh
+bash javelar_SH_vcfOnlychr_84MissingSACE.sh
+ 
 
 python3.7 mapping2ref.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE_Missing84fromSACE363.txt -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt
 python3.7  mapping2ref.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/onlySACE2tree_26jul2022.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt
