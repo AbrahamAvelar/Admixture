@@ -42,9 +42,9 @@ for rseed in {1..10}
 do
 for K in {1..10}
 do
-  admixture -s $rseed --cv Matrix_ChangeChrNames.bed $K -j4 |tee log_${K}_${rseed}_MCHN.out
+  admixture -s $rseed --cv Matrix_ChangeChrNames_LDprune.bed 4 -j4 |tee log_${rseed}_${k}_MCHN_LDprune.out
 done
 done
 
-grep "CV" log_*out
+grep "CV" log_*LDprune.out
 grep -h CV log*_all_Mezcal.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_all_SACE.txt
