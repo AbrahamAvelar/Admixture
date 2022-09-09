@@ -1,6 +1,8 @@
 # Generar los 3 archivos que pide admixture (.fam .bim .bed)
 # voy a hacerlo con la matriz de SAPA93 en tmp/06.../trees/SAPA93/admixture
 # corrí https://app.liigh.unam.mx/lmorales/Master_Thesis_JAUA/blob/master/bin/ADMIXTURE/ADMIXTURE_allSACE.sge hasta la línea 25 y no jaló
+# también consulté: https://dalexander.github.io/admixture/admixture-manual.pdf
+# también consulté: https://link.springer.com/protocol/10.1007/978-1-0716-0199-0_4
 cp Matrix_SNPs_SAPA_from_CONC_gt_onlySNPs_filtered_missing_10_biallelic admixture/Matrix
 cp Matrix_SNPs_SAPA_from_CONC_gt_onlySNPs_filtered_missing_10.recode.vcf admixture/Matrix.vcf
 module load vcftools/0.1.14
