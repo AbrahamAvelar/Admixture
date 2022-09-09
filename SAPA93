@@ -41,3 +41,4 @@ do
   admixture --cv Matrix_ChangeChrNames.bed $K -j4 |tee log_${K}_MCHN.out
 done
 grep "CV" log_*out
+grep -h CV log*_all_Mezcal.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_all_SACE.txt
