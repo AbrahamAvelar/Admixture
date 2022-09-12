@@ -55,3 +55,11 @@ cut -d ' ' -f1 Matrix_SNPs_SAPA_from_CONC_gt_onlySNPs_filtered_missing_10.recode
 # aquí http://www.trex.uqam.ca/index.php?action=matrixToNewick&project=trex metí el árbol de microrreact hecho nwk RAxML-bipartitionsBranchLabels.Matrix-SNPs-SAPA-from-CONC-gt-onlySNPs-filtered-missing-10-SAPA93.tree
 # que es el output de haber hecho un árbol con el .phy mencionado atrás. En uqam y en microrct sale que son 91. voy a ver cuáles y por qué?
 
+# Sigue volver a hacer la matriz de snps
+qlogin
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/06_genotyping
+module load python37/3.7.0
+python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SAPA93_27removed_SAPA66_forStructure.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_CONC.txt -m.1
+exit
+cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/06_genotyping/
+bash javelar_SH_getSNPmatrix_SAPA93_27removed.sh
