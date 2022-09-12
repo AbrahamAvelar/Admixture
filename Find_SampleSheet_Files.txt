@@ -7,15 +7,22 @@ done
 
 cut -d',' -f1  /mnt/Timina/lmorales/Public/ymez/data/metadata/onlySACE2tree_26jul2022.csv | while read line; 
 do
-    SIZE= ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5-11 >> archivos/SACE363_FileSize.txt
+    ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5-11 >> archivos/SACE363_FileSize.txt
+    SIZE= ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5  >> archivos/SACE363_fastaOnlyFileSize.txt
+    echo $line >> archivos/SACE363_fastaOnlyFileName.txt
 done
 
-    echo $line $A
 
-cut -d',' -f1  /mnt/Timina/lmorales/Public/ymez/data/metadata/onlySACE2tree_26jul2022.csv | while read line;  
-do   
-SIZE= ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5;
+cut -d',' -f1 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SAPA93_54SpB_13Mx_26Hyb.csv | while read line; 
+do
+    ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5-11 >> archivos/SAPA93_FileSize.txt
+    SIZE= ls -alt /mnt/Timina/lmorales/Public/ymez/data/fastq/clean/$line*R1_clean.fastq.gz | cut -d' ' -f5  >> archivos/SAPA93_fastaOnlyFileSize.txt
+    echo $line >> archivos/SAPA93_fastaOnlyFileName.txt
+done
+
+
+
+
 str1="${str1%\\n}"
 str2="${line%\\n}"
 echo "$str2$str1" ; 
-done
