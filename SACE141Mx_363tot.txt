@@ -18,3 +18,21 @@ exit
 cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/06_genotyping
 cp javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_SACE363.sh
 bash javelar_SH_getSNPmatrix_SACE363.sh
+
+# preparar admixture
+cp Matrix_SNPs_SACE_from_SACE_gt_onlySNPs_filtered_missing_10.recode.vcf Matrix.vcf
+vim Matrix.vcf
+## dentro de vim
+[ESC]:%s/SACE_S288C_v1_chr_0//[ENTER]  # 476250 substitutions on 476250 lines:q
+[ESC]:%s/SACE_S288C_v1_chr_//[ENTER] # Aquí solo salian 9!!!
+
+# Ya no intenté el admixture, en vez de eso exploré los pasos intermedios y vi que hay muchos genotipos mal llamados. Yo creo que es porque solo hice el mapping de 'los que faltaban' para ver si esto es cierto voy a hacer el paso 06 solo para las 
+qlogin
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/06_genotyping
+module load python37/3.7.0 
+python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE_Missing84fromSACE363.txt -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m 0.1
+
+ mv get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_84Missing.sge
+ mv javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_84Missing.sh # Nano para ponerle el _84Missing.sge al javelar_SH...
+ 
+ 
