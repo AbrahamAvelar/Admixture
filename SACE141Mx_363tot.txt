@@ -36,3 +36,11 @@ python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/m
  mv javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_84Missing.sh # Nano para ponerle el _84Missing.sge al javelar_SH...
  
  
+qlogin 
+python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE83_Missingfrom363.txt -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m 0.1
+cp  get_SACE_SNPmatrix_from_SACE.sge  get_SACE_SNPmatrix_from_SACE_83Missing.sge
+mkdir /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE83
+vim  mkdir /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE83
+# dentro de vim poner /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE83 como directorio del output
+exit
+bash javelar_SH_getSNPmatrix.sh
