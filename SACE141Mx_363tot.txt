@@ -62,3 +62,13 @@ module load admixture/1.3.0
 admixture Matrix.bed 3 # aunque aquí no está pruned
 ###  Sí Jaló!!! ###
 
+## Voy a quitar los 2 híbridos y la de puebla que tiene vcf chafas.
+BR017, BR018 y XA131c20, quedó en: SampleSheet_SACE360_from26jul22.csv
+python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE360_from26jul22.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m 0.1
+
+
+mv javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_SACE360.sh
+vim javelar_SH_getSNPmatrix_SACE360.sh 
+mv get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_SACE360.sge
+bash javelar_SH_getSNPmatrix_SACE360.sh #olvidé cambiarle el directorio de salida
+
