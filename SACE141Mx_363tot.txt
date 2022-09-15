@@ -34,8 +34,9 @@ python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/m
 
  mv get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_84Missing.sge
  mv javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_84Missing.sh # Nano para ponerle el _84Missing.sge al javelar_SH...
- 
- 
+ #al hacer el admixture me salió que había una muestra que no tenía ni un solo snp
+
+# Solo las 83 que no tenían un .g.vcf.gz de 4k
 qlogin 
 python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE83_Missingfrom363.txt -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m 0.1
 cp  get_SACE_SNPmatrix_from_SACE.sge  get_SACE_SNPmatrix_from_SACE_83Missing.sge
@@ -44,3 +45,20 @@ vim  mkdir /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE83
 # dentro de vim poner /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE83 como directorio del output
 exit
 bash javelar_SH_getSNPmatrix.sh
+cp  Matrix_SNPs_SACE_from_SACE_gt_onlySNPs_filtered_missing_10.recode.vcf Matrix.vcf
+## dentro de vim
+[ESC]:%s/SACE_S288C_v1_chr_0//[ENTER]  #  substitutions on 135566 lines
+[ESC]:%s/SACE_S288C_v1_chr_//[ENTER] # 152959 substitutions
+
+module load vcftools/0.1.14
+vcftools --vcf Matrix.vcf --plink --out Matrix   # kept 288507 out of a possible 288507 Sites
+
+module load plink
+vcftools --vcf Matrix.vcf --plink --out Matrix
+plink --file Matrix --out Matrix
+plink --bfile Matrix --indep-pairwise 500 10 .3 --out Matrix_LDprune #267705 of 282620 variants removed
+plink --bfile Matrix --extract Matrix_LDprune.prune.in --make-bed --out Matrix_LDPrune #Total genotyping rate is 0.996203 14915 variants and 83 people pass filters and QC
+module load admixture/1.3.0
+admixture Matrix.bed 3 # aunque aquí no está pruned
+###  Sí Jaló!!! ###
+
