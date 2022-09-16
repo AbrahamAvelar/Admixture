@@ -71,4 +71,21 @@ mv javelar_SH_getSNPmatrix.sh javelar_SH_getSNPmatrix_SACE360.sh
 vim javelar_SH_getSNPmatrix_SACE360.sh 
 mv get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_SACE360.sge
 bash javelar_SH_getSNPmatrix_SACE360.sh #olvidé cambiarle el directorio de salida
+#cometí el error de volver a correr el qsub y entonces el .vcf se empezó a hacer otra vez y quedó mal
+cp  Matrix_SNPs_SACE_from_SACE_gt_onlySNPs_filtered_missing_10.recode.vcf Matrix.vcf
+vim Matrix.vcf
+[ESC]:%s/SACE_S288C_v1_chr_0//[ENTER]  #  substitutions on 5896122 lines
+[ESC]:%s/SACE_S288C_v1_chr_//[ENTER] # 609199 substitutions
+module load vcftools/0.1.14
+vcftools --vcf Matrix.vcf --plink --out Matrix   #  kept 1198793 out of a possible 1198793 Sites
+plink --file Matrix --out Matrix  # 1123300 variants, 359 people
+plink --bfile Matrix --indep-pairwise 500 10 .3 --out Matrix_LDprune #  964395 of 1123300 variants removed.
+plink --bfile Matrix --extract Matrix_LDprune.prune.in --make-bed --out Matrix_LDPrune #Total genotyping rate 0.99761. 158905 variants and 359 people pass filters and QC
+admixture Matrix_LDPrune.bed 2 # Sí JALó!!!
 
+for K in {5..15}
+do
+  admixture --cv Matrix_LDPrune.bed $K -j4 |tee log_SACE360_${K}_LDprune.out
+done
+
+# Mientras eso corre Voy a intentar 'arreglar la XA131c20 de Puebla o alguna de sus clonas
