@@ -1,0 +1,20 @@
+# el árbol por el que AdL siempre pregunta
+# tomar las 363 de LFGO? creo que mejor solo la YPS138 como 'outgroup' y las mexicanas de ese mismo subgrupo, también entran las brazil, las de guyana y alpechín
+# entonces haré nueva SS que se llame SampleSheet_SACEXX_SACEfromCONC
+
+
+python3.7 SNPs_onlyChr.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE244_SAPAfromCONC.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_CONC.txt --subgenome SAPA
+
+cp javelar_SH_vcfOnlychr.sh  javelar_SH_vcfOnlychr_SACE244.sh
+bash javelar_SH_vcfOnlychr_SACE244.sh
+
+(base) [javelar@compute-00-02 06_genotyping]$ python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez
+/data/metadata/SampleSheet_SACE244_SAPAfromCONC.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_CONC.txt
+ -m .1
+ 
+ 
+# abrir el get_SAPA_SNPmatrix_from_CONC.sge
+agregar 244.err y 244.out
+out_dir=/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE244_SAPAfromCONC
+
+ bash javelar_SH_getSNPmatrix_SACE244.sh
