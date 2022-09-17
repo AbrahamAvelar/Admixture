@@ -89,3 +89,22 @@ do
 done
 
 # Mientras eso corre Voy a intentar 'arreglar la XA131c20 de Puebla o alguna de sus clonas
+
+
+[ESC]:%s/SACE_S288C_v1_chr_0//[ENTER]  #  substitutions
+[ESC]:%s/SACE_S288C_v1_chr_//[ENTER] #  605473 substitutions
+module load vcftools/0.1.14
+vcftools --vcf Matrix.vcf --plink --out Matrix   #  kept 1191318
+plink --file Matrix --out Matrix  # 1117028 variants, 304 people
+plink --bfile Matrix --indep-pairwise 500 10 .3 --out Matrix_LDprune #  960281 of 1117028 variants removed.
+plink --bfile Matrix --extract Matrix_LDprune.prune.in --make-bed --out  Matrix_LDPrune #Total genotyping rate is 0.99756. 56747 variants and 304 people pass fil
+admixture Matrix_LDPrune.bed 2
+
+for rseed in {1..10}
+do
+for K in {1..10}
+do
+  admixture -s $rseed --cv Matrix_LDPrune.bed $K -j4 |tee log_SACE304_${rseed}_${K}_LDprune.out
+done
+done
+
