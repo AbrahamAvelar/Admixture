@@ -1,0 +1,9 @@
+rm Pong_mfile_k15-20_s1-15.txt
+for seed in {1..15}
+do
+  for k in {15..20}
+  do
+    echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_10_0.35_S${seed}_K${k}.${k}.Q" >> Pong_mfile_k15-20_s1-15.txt
+    #ls Matrix_LDPrune_500_10_0.35_S${seed}_K${k}.${k}.Q | grep No
+  done
+done
