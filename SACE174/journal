@@ -1,2 +1,24 @@
 python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE174_OnlyMX.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m .1 
 cp get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_SACE174.sge
+
+module load vcftools/0.1.14 admixture/1.3.0 plink
+
+## Remove prefix form chromosome numbers at chromosome names
+cp originalMatrix.vcf Matrix.vcf # copy the vcf before changing chromosome names
+sed -i 's/SACE_YPS138_v1_chr_0//g' Matrix.vcf
+sed -i 's/SACE_YPS138_v1_chr_//g' Matrix.vcf
+
+module load vcftools/0.1.14  
+vcftools --vcf Matrix.vcf --plink --out Matrix  #  generate .ped .map and .log. 
+module load plink                       # PLINK v1.90b6.26 64-bit (2 Apr 2022) (que carga si no le dices cuál) sí funciona. con el 1.07 no te hace el .fam con estas instrucciones
+plink --file Matrix --out Matrix        # .log .bed .bim .fam
+plink --bfile Matrix --indep-pairwise 500 10 .3  --out Matrix # 411794 of 448528 variants removed. # SNP_window500 advancing_10SNPs_each_Time   r2_greater_than.3    # Outputs: .nosex .log .prune.out .prune.in
+plink --bfile Matrix --extract Matrix.prune.in --make-bed --out Matrix_LDPrune # Matrix_LDPrune.log .bim .fam .bed .nosex
+
+
+qlogin
+(base) [javelar@compute-00-04 10_admixture]$ python3.7 SendAdmixtureSGEs.py --dirbed /mnt/Timina/lmorales/Public/ymez/t
+mp/06_genotyping/trees/SACE174 --bed Matrix_LDPrune.bed --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/
+SACE174/out --minS 1 --maxS 5 --minK 1 --maxK 20 --setname SACE174
+exit
+bash javelar_admixture_K1-20_S1-5.sh
