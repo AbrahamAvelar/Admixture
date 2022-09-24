@@ -1,0 +1,2 @@
+python3.7 genotyping_and_filtering.py -s /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE174_OnlyMX.csv -r /mnt/Timina/lmorales/Public/ymez/data/metadata/ref_only_SACE.txt -m .1 
+cp get_SACE_SNPmatrix_from_SACE.sge get_SACE_SNPmatrix_from_SACE_SACE174.sge
