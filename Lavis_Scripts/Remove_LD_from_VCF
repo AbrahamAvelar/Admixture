@@ -18,8 +18,8 @@ module load vcftools/0.1.14 admixture/1.3.0 plink
 
 ## Remove prefix form chromosome numbers at chromosome names
 cp originalMatrix.vcf Matrix.vcf # copy the vcf before changing chromosome names
-sed -i 's/SAPA_YPS138_v1_chr_0//g' Matrix.vcf
-sed -i 's/SAPA_YPS138_v1_chr_//g' Matrix.vcf
+sed -i 's/SAPA_YPS138_v1_chr_0//g' Matrix.vcf # sed -i 's/SACE_S288C_v1_chr_0//g' Matrix.vcf
+sed -i 's/SAPA_YPS138_v1_chr_//g' Matrix.vcf  # sed -i 's/SACE_S288C_v1_chr_//g' Matrix.vcf
 
 #Cómo guardar las salidas en pantalla en el SGE/st/*.out
 #Ponerle Sufijo de la SampleSheet a los archivos
