@@ -8,4 +8,4 @@ do
   done
 done
 
-# pong -m Pong_mfile_k15-20_s1-15.txt  -i ../SACE304.ind2pop.csv -p 5000
+# pong -m Pong_mfile_k15-20_s1-15.txt  -i ../SACE304_UsingK11forK16-20.ind2pop.csv -p 5000 -n SACE304.orderPop.txt
