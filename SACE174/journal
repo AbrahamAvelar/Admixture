@@ -17,8 +17,6 @@ plink --bfile Matrix --extract Matrix.prune.in --make-bed --out Matrix_LDPrune #
 
 
 qlogin
-(base) [javelar@compute-00-04 10_admixture]$ python3.7 SendAdmixtureSGEs.py --dirbed /mnt/Timina/lmorales/Public/ymez/t
-mp/06_genotyping/trees/SACE174 --bed Matrix_LDPrune.bed --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/
-SACE174/out --minS 1 --maxS 5 --minK 1 --maxK 20 --setname SACE174
+python3.7 SendAdmixtureSGEs.py --dirbed /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE174 --bed Matrix_LDPrune.bed --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE174/out --minS 6 --maxS 15 --minK 1 --maxK 20 --setname SACE174
 exit
 bash javelar_admixture_K1-20_S1-5.sh
