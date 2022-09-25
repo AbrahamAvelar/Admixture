@@ -1,11 +1,12 @@
-rm Pong_mfile_k15-20_s1-15.txt
-for seed in {1..5}
-do
-  for k in {16..20}
+  rm Pong_mfile_SACE174.txt
+  for seed in {1..5}
   do
-    echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_10_0.35_S${seed}_K${k}.${k}.Q" >> Pong_mfile_k15-20_s1-15.txt
-    #ls Matrix_LDPrune_500_10_0.35_S${seed}_K${k}.${k}.Q | grep No
+    for k in {8..9}
+    do
+      echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_S${seed}_K${k}.${k}.Q" >> Pong_mfile_SACE174.txt
+      #echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_10_0.35_S${seed}_K${k}.${k}.Q" >> Pong_mfile_k15-20_s1-15.txt
+      #ls Matrix_LDPrune.35_S${seed}_K${k}.${k}.Q | grep No
+    done
   done
-done
 
-# pong -m Pong_mfile_k15-20_s1-15.txt  -i ../SACE304_UsingK11forK16-20.ind2pop.csv -p 5000 -n SACE304.orderPop.txt
+# pong -m Pong_mfile_SACE174.txt  -i ../SACE174.ind2pop.txt -p 5000 -n ../SACE304.orderPop.txt
