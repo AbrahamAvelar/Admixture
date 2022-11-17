@@ -35,7 +35,8 @@ python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina
 cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
 mv javelar_admixture_K1-15_S1-10.sh javelar_admixture_SAPA146_K1-15_S1-10.sh
 bash javelar_admixture_SAPA146_K1-15_S1-10.sh
-# se fueron 10*15 
+# se fueron 10*15 302?jobs a las 7:41
 
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
+grep -h CV log*_SAPA93.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA163.txt
 
