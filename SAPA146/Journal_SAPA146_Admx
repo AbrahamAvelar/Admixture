@@ -1,0 +1,41 @@
+
+Necesito correr estas dos:
+
+# Quitar LD
+/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE304/Remove_LD_from_VCF.sge 
+# $1 es el nombre del vcf que va a usar
+# $2  $3 y $4 son los parámetros para WindowSize $1. Advancing $2 SNPs each time. with at least $3 r2
+
+# Hacer todo el montón de admixtures
+/mnt/Timina/lmorales/Public/ymez/bin/scripts/10_admixture/SendAdmixtureSGEs.py
+ag.add_argument("-b", "--bed", required = True, help = "file with the .bed SNPs matrix") 
+ag.add_argument("-d", "--dirbed", required = True, help = "directory where the .bed SNPs matrix is") 
+ag.add_argument("--out", required = True, help = "Output directory")
+ag.add_argument("--minS", required = True, help = "minS")
+ag.add_argument("--minK", required = True, help = "minK")
+ag.add_argument("--maxS", required = True, help = "maxS")
+ag.add_argument("--maxK", required = True, help = "maxK")
+ag.add_argument("--setname", required = True, help = "setname")
+
+
+# el VCF que quiero: /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/Matrix_SNPs_SAPA_from_SAPA_gt_onlySNPs_filtered_missing_10_biallelic
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/ 
+mkdir admixture
+cp /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE304/Remove_LD_from_VCF.sge admixture/
+vim admixture/Remove_LD_from_VCF.sge # Cambiar .err y .out
+mv  Remove_LD_from_VCF.sge  Remove_LD_from_VCF_SAPA146.sge
+qsub Remove_LD_from_VCF_SAPA146.sge /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/Matrix_SNPs_SAPA_from_SAPA_gt_onlySNPs_filtered_missing_10_biallelic 500 100 .15
+#OUT:
+#Pruning complete.  916431 of 950450 variants removed.
+#Writing...^MMarker lists written to Matrix.prune.in and Matrix.prune.out
+
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/10_admixture/
+module load python37/3.7.0
+python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out --minS 1 --maxS 10 --minK 1 --maxK 15 --setname SAPA146
+cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
+mv javelar_admixture_K1-15_S1-10.sh javelar_admixture_SAPA146_K1-15_S1-10.sh
+bash javelar_admixture_SAPA146_K1-15_S1-10.sh
+# se fueron 10*15 
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
+
