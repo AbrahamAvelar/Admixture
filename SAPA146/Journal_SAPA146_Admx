@@ -37,6 +37,15 @@ mv javelar_admixture_K1-15_S1-10.sh javelar_admixture_SAPA146_K1-15_S1-10.sh
 bash javelar_admixture_SAPA146_K1-15_S1-10.sh
 # se fueron 10*15 302?jobs a las 7:41
 
-cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
-grep -h CV log*_SAPA93.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA163.txt
+#hacer más K
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/10_admixture/
+python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out --minS 11 --maxS 20 --minK 1 --maxK 20 --setname SAPA146
+cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
+mv javelar_admixture_K1-20_S11-20.sh javelar_admixture_SAPA146_K1-20_S11-20.sh
+bash  javelar_admixture_SAPA146_K1-20_S11-20.sh
 
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
+grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA146.txt
+
+scp -r javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out/Values_CV_SAPA163.txt  D:/Dropbox/Posdoc/Admixture/SAPA146/
