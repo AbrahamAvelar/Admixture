@@ -30,7 +30,7 @@ plink --file Matrix --out Matrix # .log .bed .bim .fam
 plink --bfile Matrix --indep-pairwise $2 $3 $4 --out Matrix # SNP_window500 advancing_10SNPs_each_Time r2_greater_than.3 # Outputs: .nosex .log .prune.out .prune.in
 plink --bfile Matrix --extract Matrix.prune.in --make-bed --out Matrix_LDPrune_${2}_${3}_${4} # Matrix_LDPrune.log .bim.fam .bed .nosex
 
-
+# Poner una copia de este archivo en la carpeta admixture con la matriz del SACE/SAPA 
 # inputs: 
 # $1 es el nombre del vcf que va a usar
 # $2  $3 y $4 son los parámetros para WindowSize $1. Advancing $2 SNPs each time. with at least $3 r2
