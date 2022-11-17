@@ -59,8 +59,8 @@ for seeds in range(int(minS), int(maxS)+1):
         bimfile = dirbed+"/"+"$(basename "+bed+" .bed)"+"_S"+str(seeds)+"_K"+str(ks)+".bim" #ruta completa del archivo nuevo solo generado para tener un input por job
         famfile = dirbed+"/"+"$(basename "+bed+" .bed)"+"_S"+str(seeds)+"_K"+str(ks)+".fam" #ruta completa del archivo nuevo solo generado para tener un input por job
         nosexfile = dirbed+"/"+"$(basename "+bed+" .bed)"+"_S"+str(seeds)+"_K"+str(ks)+".nosex" #ruta completa del archivo nuevo solo generado para tener un input por job
-        sgs.append("admixture_K" + str(ks) + "_S"+str(seeds) )
-        file = sge_dir + "/" + "admixture_K" + str(ks) + "_S"+str(seeds) + ".sge"
+        sgs.append("admixture_"+str(setname)+"_K" + str(ks) + "_S"+str(seeds) )
+        file = sge_dir + "/" + "admixture_"+str(setname)+"_K" + str(ks) + "_S"+str(seeds) + ".sge"
         with open(file,'w') as sge_file:
              header(sge_dir, "Admixture"+"_K" + str(ks) + "_S"+str(seeds) , sge_file, setname, username, np, ram)
              print('module load admixture/1.3.0\n###', file =sge_file)
