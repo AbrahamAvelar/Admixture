@@ -9,4 +9,14 @@
     done
   done
 
+
+# ver: https://github.com/ramachandran-lab/pong
 # pong -m Pong_mfile_SACE174.txt  -i ../SACE174.ind2pop.txt -p 5000 -n ../SACE304.orderPop.txt
+# pong -m out2/H948_Euro.LDprune.Qfilemap -i out2/H948_Euro.ind2pop
+# pong_output_2022-09-02_11h06m36s/result_summary.txt
+# /usr/bin/pong -m Pong_mfile_SACE174.txt -i ../SACE174.States.ind2pop.txt -p 5000 -n order.States.txt
+
+# Inputs pong
+# Pong_mfile_SACE174.txt ### viene de el for que está arriba de este archivo
+# ../SACE174.States.ind2pop.txt o  ../SACE174.Statate_Strain.ind2pop.txt ### son los nombres de las poblaciones o de las cepas quese quieran tener 
+# order.States.txt es en qué orden quieres ver las cosas
