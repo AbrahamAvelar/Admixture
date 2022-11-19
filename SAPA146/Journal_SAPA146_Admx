@@ -49,3 +49,26 @@ cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/ou
 grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA146.txt
 
 scp -r javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out/Values_CV_SAPA163.txt  D:/Dropbox/Posdoc/Admixture/SAPA146/
+
+
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
+### PONG
+for seed in {1..10}; 
+do   
+  for k in {11..13};   do     
+    echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_10_.35_S${seed}_K${k}.${k}.Q" >> Pong_mfile_SAPA146.txt # Pong_mfile_k11-13_s1-10.txt   
+  done; 
+done
+
+### IND2POP
+cut -d',' -f7 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SAPA146_WorldANDNatEnvMezcal.csv >> SAPA146_GeneticGroup_ind2pop.txt
+
+
+### CORRER PONG
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
+/usr/bin/pong -m Pong_mfile_SAPA146.txt -i SAPA146_GeneticGroup_ind2pop.txt -p 5000 # VERSIÓN SIMPLE
+
+/usr/bin/pong -m Pong_mfile_SAPA146.txt -i SAPA146_GeneticGroup.strname_ind2pop.txt -p 5000 -n  SAPA146_order.Region_Strain.csv
+
+
