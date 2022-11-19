@@ -66,9 +66,10 @@ cut -d',' -f7 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SAPA146
 
 
 ### CORRER PONG
+qlogin
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out
 /usr/bin/pong -m Pong_mfile_SAPA146.txt -i SAPA146_GeneticGroup_ind2pop.txt -p 5000 # VERSIÓN SIMPLE
+/usr/bin/pong -m Pong_mfile_SAPA146.txt -i SAPA146_GeneticGroup.strname_ind2pop.txt -p 5000 -n  SAPA146_order.Region_Strain.csv ordenada
 
-/usr/bin/pong -m Pong_mfile_SAPA146.txt -i SAPA146_GeneticGroup.strname_ind2pop.txt -p 5000 -n  SAPA146_order.Region_Strain.csv
-
-
+## en otra terminal:  ssh -L 4999:compute-00-11:5000 javelar@dna.lavis.unam.mx -Y # 00-11 es el número del qlogin
+## en el navegador   http://localhost:4999/
