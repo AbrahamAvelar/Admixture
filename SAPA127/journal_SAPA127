@@ -23,3 +23,7 @@ vim  get_SAPA_SNPmatrix_from_SAPA_117SAPA.sge # cambie output de .err y .out
 
 bash javelar_SH_getSNPmatrix_from_SAPA_SAPA127.sh # 23:19
 
+cp Matrix_SNPs_SAPA_from_SAPA_gt_onlySNPs_filtered_missing_10_biallelic admixture/Matrix.vcf
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture
+vim Remove_LD_from_VCF_SAPA127.sge # copiar desde otra carpeta (SAPA146)
+qsub Remove_LD_from_VCF_SAPA127.sge
