@@ -41,9 +41,9 @@ bash  javelar_admixture_SAPA127_K1-30_S1-30.sh
 
 
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out
-grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA146.txt
+grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n #> Values_CV_SAPA127.txt
 
-scp -r javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out/Values_CV_SAPA163.txt  D:/Dropbox/Posdoc/Admixture/SAPA146/
+scp -r javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out/Values_CV_SAPA127.txt  D:/Dropbox/Posdoc/Admixture/SAPA127/
 
 
 
