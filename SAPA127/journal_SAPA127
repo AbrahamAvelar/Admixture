@@ -26,4 +26,28 @@ bash javelar_SH_getSNPmatrix_from_SAPA_SAPA127.sh # 23:19
 cp Matrix_SNPs_SAPA_from_SAPA_gt_onlySNPs_filtered_missing_10_biallelic admixture/Matrix.vcf
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture
 vim Remove_LD_from_VCF_SAPA127.sge # copiar desde otra carpeta (SAPA146)
-qsub Remove_LD_from_VCF_SAPA127.sge 500 100 0.15
+qsub Remove_LD_from_VCF_SAPA146.sge /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/Matrix_SNPs_SAPA_from_SAPA_gt_onlySNPs_filtered_missing_10_biallelic 500 100 .15
+# Pruning complete.  916383 of 949728 variants removed.
+# 33345 variants and 127 people pass filters and QC.
+# Note: No phenotypes present.
+
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/10_admixture/
+module load python37/3.7.0
+python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out --minS 1 --maxS 30 --minK 1 --maxK 30 --setname SAPA127
+cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
+mv javelar_admixture_K1-30_S1-30.sh javelar_admixture_SAPA127_K1-30_S1-30.sh
+bash  javelar_admixture_SAPA127_K1-30_S1-30.sh
+# se fueron 30*30 302?jobs a las 21:04 
+
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out
+grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n > Values_CV_SAPA146.txt
+
+scp -r javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA146/admixture/out/Values_CV_SAPA163.txt  D:/Dropbox/Posdoc/Admixture/SAPA146/
+
+
+
+
+
+
+
