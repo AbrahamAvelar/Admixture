@@ -18,3 +18,45 @@ python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina
 cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
 mv javelar_admixture_K1-35_S1-10.sh javelar_admixture_SACE395_K1-35_S1-10.sh
 bash  javelar_admixture_SACE395_K1-35_S1-10.sh # 350 jobs 00:05 
+
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
+grep -h CV log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n #> Values_CV_SAPA127.txt
+
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
+### PONG mfile
+rm Pong_mfile_SACE395-k10-20-S1-2.txt 
+for seed in {1..2}; 
+do   
+  for k in {10..11};   do 
+    echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_100_.15_S${seed}_K${k}.${k}.Q" >> Pong_mfile_SACE395-k10-20-S1-2.txt 
+  done; 
+done
+
+### IND2POP
+scp D:/Dropbox/Posdoc/Sample_Sheets_SACE/SampleSheet_SACE395_ind2pop_ForPong.csv javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/data/metadata/
+vim /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv # :set nobomb
+cut -d',' -f9 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv >> SACE395_ind2pop.txt
+
+
+## Correr pong
+qlogin
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out
+/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt   -i SACE395_ind2pop.txt -p 5000 
+/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt  -i SACE395_ind2pop.txt -p 5000 -n  SAPA128_order.Region_StrainA.csv
+
+
+
+
+
+## Generar Archivo con CrossValidation erros CV
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
+grep -h CV /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out/log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n #> Values_CV_SAPA127.txt
+
+
+
+
+
+
+
