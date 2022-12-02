@@ -10,4 +10,11 @@ mv Remove_LD_from_VCF_SAPA127.sge Remove_LD_from_VCF_SACE395.sge
 
 vim Remove_LD_from_VCF_SACE395.sge
 qsub Remove_LD_from_VCF_SACE395.sge /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/Matrix_SNPs_SACE_from_SACE_gt_onlySNPs_filtered_missing_10_biallelic 500 100 .15
--23:49
+-23:49 -24
+
+cd /mnt/Timina/lmorales/Public/ymez/bin/scripts/10_admixture/
+module load python37/3.7.0
+python3.7  SendAdmixtureSGEs.py -b Matrix_LDPrune_500_100_.15.bed -d /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture --out /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out --minS 1 --maxS 10 --minK 1 --maxK 35 --setname SACE395 
+cd /mnt/Timina/lmorales/Public/ymez/bin/SGE/10_admixture
+mv javelar_admixture_K1-35_S1-10.sh javelar_admixture_SACE395_K1-35_S1-10.sh
+bash  javelar_admixture_SACE395_K1-35_S1-10.sh # 350 jobs 00:05 
