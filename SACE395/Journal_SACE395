@@ -1,0 +1,13 @@
+% Voy primero a hacer el montón de CVs
+
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture
+cp Remove_LD_from_VCF_SAPA127.sge ../..
+cd ../..
+
+mkdir SACE395/admixture
+mv Remove_LD_from_VCF_SAPA127.sge SACE395/admixture/
+mv Remove_LD_from_VCF_SAPA127.sge Remove_LD_from_VCF_SACE395.sge
+
+vim Remove_LD_from_VCF_SACE395.sge
+qsub Remove_LD_from_VCF_SACE395.sge /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/Matrix_SNPs_SACE_from_SACE_gt_onlySNPs_filtered_missing_10_biallelic 500 100 .15
+-23:49
