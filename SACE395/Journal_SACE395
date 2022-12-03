@@ -29,7 +29,7 @@ cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/ou
 rm Pong_mfile_SACE395-k10-20-S1-2.txt 
 for seed in {1..2}; 
 do   
-  for k in {10..11};   do 
+  for k in {21..26};   do 
     echo -e "K${k}s${seed}\t${k}\tMatrix_LDPrune_500_100_.15_S${seed}_K${k}.${k}.Q" >> Pong_mfile_SACE395-k10-20-S1-2.txt 
   done; 
 done
@@ -39,16 +39,20 @@ scp D:/Dropbox/Posdoc/Sample_Sheets_SACE/SampleSheet_SACE395_ind2pop_ForPong.csv
 vim /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv # :set nobomb
 cut -d',' -f9 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g' >> SACE395_ind2pop.txt
 cut -d',' -f8 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g' >> SACE395_ind2pop_onlyPop.txt
-
 vim SACE395_ind2pop.txt # remove name of the column
 
+
+## Order
+scp D:/Dropbox/Posdoc/Sample_Sheets_SACE/SampleSheet_SACE395_order_ForPong.csv javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/data/metadata/
+vim /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_order_ForPong.csv # :set nobomb
+cut -d',' -f8 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_order_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g'| uniq >> SACE395_Order.txt
 
 
 ## Correr pong
 qlogin
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
-/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt   -i SACE395_ind2pop.txt -p 5000 
-/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt  -i SACE395_ind2pop.txt -p 5000 -n  SAPA128_order.Region_StrainA.csv
+/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt    -i SACE395_ind2pop_onlyPop.txt -p 5000 
+/usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt  -i SACE395_ind2pop.txt -p 5000 -n  SACE395_Order.txt
 
 
 # Me marcaba que tenía columnas de más. en realidad es porque tiene más rows
