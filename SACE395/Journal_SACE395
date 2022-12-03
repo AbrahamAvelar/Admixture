@@ -37,22 +37,29 @@ done
 ### IND2POP
 scp D:/Dropbox/Posdoc/Sample_Sheets_SACE/SampleSheet_SACE395_ind2pop_ForPong.csv javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/data/metadata/
 vim /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv # :set nobomb
-cut -d',' -f9 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv >> SACE395_ind2pop.txt
+cut -d',' -f9 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g' >> SACE395_ind2pop.txt
+vim SACE395_ind2pop.txt # remove name of the column
+
 
 
 ## Correr pong
 qlogin
-cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SAPA127/admixture/out
+cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
 /usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt   -i SACE395_ind2pop.txt -p 5000 
 /usr/bin/pong -m  Pong_mfile_SACE395-k10-20-S1-2.txt  -i SACE395_ind2pop.txt -p 5000 -n  SAPA128_order.Region_StrainA.csv
 
 
+# Me marcaba que tenía columnas de más. en realidad es porque tiene más rows
+head -n70 Matrix.vcf | tail -n1 | tr -s ' \t' '\n' >> VCF_Samples.csv # para guardar los nombres del vcf gigante
 
+/mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/VCF_Samples.csv 
 
 
 ## Generar Archivo con CrossValidation erros CV
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
 grep -h CV /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out/log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n #> Values_CV_SAPA127.txt
+vim VCF_Samples.csv # es para quitarle las primeras 7 líneas
+
 
 
 
