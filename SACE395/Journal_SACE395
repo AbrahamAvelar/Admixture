@@ -38,6 +38,8 @@ done
 scp D:/Dropbox/Posdoc/Sample_Sheets_SACE/SampleSheet_SACE395_ind2pop_ForPong.csv javelar@dna.lavis.unam.mx:/mnt/Timina/lmorales/Public/ymez/data/metadata/
 vim /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv # :set nobomb
 cut -d',' -f9 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g' >> SACE395_ind2pop.txt
+cut -d',' -f8 /mnt/Timina/lmorales/Public/ymez/data/metadata/SampleSheet_SACE395_ind2pop_ForPong.csv | sed -r 's/\s+//g' | sed -r 's/\.+//g' >> SACE395_ind2pop_onlyPop.txt
+
 vim SACE395_ind2pop.txt # remove name of the column
 
 
@@ -53,13 +55,15 @@ cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/ou
 head -n70 Matrix.vcf | tail -n1 | tr -s ' \t' '\n' >> VCF_Samples.csv # para guardar los nombres del vcf gigante
 
 /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/VCF_Samples.csv 
-
+ahí pude ver que SRR800818 no está en el vcf y el ERR1309363 está dos veces.
 
 ## Generar Archivo con CrossValidation erros CV
 cd /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out
 grep -h CV /mnt/Timina/lmorales/Public/ymez/tmp/06_genotyping/trees/SACE395/admixture/out/log*.out|awk -F "=|:" '{print $2"\t"$3}' | sed 's/)//g'| sort -n #> Values_CV_SAPA127.txt
 vim VCF_Samples.csv # es para quitarle las primeras 7 líneas
 
+
+ssh -L 4999:compute-00-00:5000 javelar@dna.lavis.unam.mx -Y # 00-11 es el número del qlogin
 
 
 
